@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<div class="container" style="min-height: 80vh; padding: 130px">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+      <div class="card shadow p-4">
+        <h2 class="text-center mb-4">Edit Profile</h2>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <!-- Имя и Email -->
+          {{ user_form.as_p }}
+
+          <!-- Фото -->
+          <div class="mb-3">
+            {% if user.profile.image %}
+              <img src="{{ user.profile.image.url }}" class="rounded-circle mb-3" width="120" height="120" style="object-fit: cover;">
+            {% endif %}
+            {{ profile_form.as_p }}
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

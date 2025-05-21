@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+{% block title %}Результаты поиска{% endblock %}
+
+{% block content %}
+<div class="container my-5" style="padding: 140px">
+  <h2 class="mb-4">Результаты поиска по запросу: "{{ query }}"</h2>
+
+  {% if results %}
+    <div class="row">
+      {% for game in results %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <img src="{{ game.image.url }}" class="card-img-top" alt="{{ game.title }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ game.title }}</h5>
+              <p class="card-text">{{ game.category }}</p>
+              <p class="card-text"><strong>{{ game.new_price }} ₸</strong></p>
+              <a href="{% url 'product_detail' game.id %}" class="btn btn-primary btn-sm">Подробнее</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>Ничего не найдено.</p>
+  {% endif %}
+</div>
+{% endblock %}

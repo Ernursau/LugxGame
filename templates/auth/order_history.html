@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+{% block title %}История заказов{% endblock %}
+
+{% block content %}
+<div class="container my-5" style="padding: 140px">
+  <h2 class="text-center mb-4">История заказов</h2>
+
+  {% if orders %}
+    {% for order in orders %}
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header d-flex justify-content-between">
+          <span>Заказ №{{ order.id }} — {{ order.created_at|date:"d.m.Y H:i" }}</span>
+          <a href="{% url 'generate_pdf' order.id %}" class="btn btn-outline-primary btn-sm" target="_blank">Скачать чек (PDF)</a>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for item in order.items.all %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span>{{ item.game.title }}</span>
+              <span>{{ item.game.new_price }} ₸</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="text-center">У вас пока нет заказов.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'main/base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container" style="min-height: 80vh; padding: 140px">
+  <div class="row justify-content-center align-items-center" style="height: 100%;">
+    <div class="col-md-4">
+      <h2 class="text-center mb-4">Login</h2>
+      <form method="post">
+        {% csrf_token %}
+        {% if error %}
+          <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <div class="mb-3">
+          <label for="id_username" class="form-label">Username</label>
+          <input id="id_username" type="text" name="username" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="id_password" class="form-label">Password</label>
+          <input id="id_password" type="password" name="password" class="form-control" required>
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-success">Login</button>
+        </div>
+      </form>
+      <p class="text-center mt-3">
+        Ещё нет аккаунта?
+        <a href="{% url 'register' %}">Зарегистрироваться</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

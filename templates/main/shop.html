@@ -1,0 +1,37 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Shop{% endblock %}
+
+{% block content %}
+<div class="container my-5" style="padding: 130px">
+  <div class="text-center mb-4">
+    <a href="{% url 'shop' %}" class="btn {% if not selected_category %}btn-danger{% else %}btn-light{% endif %} rounded-pill mx-1">Show All</a>
+    {% for cat, name in games.model.CATEGORY_CHOICES %}
+      <a href="?category={{ cat }}" class="btn {% if selected_category == cat %}btn-danger{% else %}btn-light{% endif %} rounded-pill mx-1">{{ name }}</a>
+    {% endfor %}
+  </div>
+
+  <div class="row">
+    {% for game in games %}
+    <div class="col-md-3 mb-4">
+      <div class="card shadow-sm border-0">
+        <img src="{{ game.image.url }}" class="card-img-top rounded-top" style="height: 200px; object-fit: cover;" alt="{{ game.title }}">
+        <div class="position-absolute top-0 end-0 bg-primary text-white px-2 py-1 m-2 rounded">
+          <small><del>${{ game.old_price }}</del></small><br><strong>${{ game.new_price }}</strong>
+        </div>
+        <div class="card-body text-center">
+          <p class="text-muted mb-1">{{ game.get_category_display }}</p>
+          <h5 class="card-title">{{ game.title }}</h5>
+          <button class="btn btn-danger rounded-circle"><i class="fa fa-shopping-bag"></i></button>
+            <a href="{% url 'add_to_cart' game.id %}" class="btn btn-danger rounded-circle">
+  <i class="fa fa-shopping-bag"></i>
+</a>
+
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

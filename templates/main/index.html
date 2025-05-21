@@ -1,0 +1,39 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Главная - Lugx{% endblock %}
+
+{% block content %}
+    <div class="container my-5" style="padding: 130px">
+  <div class="section-heading">
+    <h2>New Games</h2>
+    <span>Latest added games from our shop</span>
+  </div>
+
+  <div class="row">
+    {% for game in games %}
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="item card border-0 shadow-sm">
+        <div class="thumb">
+          <a href="{% url 'product_detail' game.id %}">
+            <img src="{{ game.image.url }}" alt="{{ game.title }}" style="height: 180px; object-fit: cover;">
+          </a>
+        </div>
+        <div class="down-content text-center p-3">
+          <span class="category text-muted">{{ game.get_category_display }}</span>
+          <h4>{{ game.title }}</h4>
+          <div class="price">
+            <del>${{ game.old_price }}</del> <span>${{ game.new_price }}</span>
+          </div>
+          <a href="{% url 'add_to_cart' game.id %}" class="btn btn-outline-primary btn-sm mt-2">
+            <i class="fa fa-shopping-cart"></i> Add to Cart
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+    {% include 'main/patralis/contact.html' %}
+    {% include 'main/patralis/footer.html' %}
+{% endblock %}

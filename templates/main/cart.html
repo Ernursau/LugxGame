@@ -1,0 +1,44 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Your Cart{% endblock %}
+
+{% block content %}
+<div class="container my-5" style="padding: 130px">
+  <h2 class="text-center mb-4">Your Shopping Cart</h2>
+
+  {% if items %}
+    <div class="row">
+      {% for item in items %}
+      <div class="col-md-6 mb-4">
+        <div class="card d-flex flex-row shadow-sm p-3 align-items-center">
+          <img src="{{ item.game.image.url }}" alt="{{ item.game.title }}" class="rounded" style="width: 120px; height: 80px; object-fit: cover;">
+          <div class="ms-3 flex-grow-1">
+            <h5 class="mb-1">{{ item.game.title }}</h5>
+            <p class="mb-0 text-muted">{{ item.game.get_category_display }}</p>
+            <small>${{ item.game.new_price }} × {{ item.quantity }} = <strong>${{ item.total_price }}</strong></small>
+          </div>
+          <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-outline-danger btn-sm">
+            <i class="fa fa-trash"></i>
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-end">
+      <h4>Total: ${{ total }}</h4>
+      <form method="post" action="{% url 'checkout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success mt-2">Buy & Download PDF</button>
+      </form>
+    </div>
+
+  {% else %}
+    <div class="text-center">
+      <p class="lead">Your cart is empty.</p>
+      <a href="{% url 'shop' %}" class="btn btn-primary">Go to Shop</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
