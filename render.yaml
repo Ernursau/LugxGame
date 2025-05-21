@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: lugxgame
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn DjangoProject22.wsgi:application
+    staticPublishPath: staticfiles
+    envVars:
+      - key: DEBUG
+        value: False
+      - key: ALLOWED_HOSTS
+        value: lugxgame-1.onrender.com
+      - key: SECRET_KEY
+        generateValue: true
