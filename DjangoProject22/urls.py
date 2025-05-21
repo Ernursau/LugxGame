@@ -21,17 +21,9 @@ from django.conf.urls.static import static
 from django.http import HttpResponse
 from django.core.management import call_command
 
-def setup_view(request):
-    try:
-        call_command("migrate", interactive=False)
-        call_command("collectstatic", interactive=False, verbosity=0)
-        return HttpResponse("✅ migrate и collectstatic успешно выполнены")
-    except Exception as e:
-        return HttpResponse(f"❌ Ошибка: {e}")
 
 
 urlpatterns = [
-    path("setup/", setup_view),
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
 ]
