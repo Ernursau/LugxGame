@@ -33,8 +33,18 @@ def setup_view(request):
         return HttpResponse(f"❌ Ошибка: {e}")
 
 
+def collectstatic_view(request):
+    try:
+        call_command("collectstatic", interactive=False, verbosity=0)
+        return HttpResponse("✅ collectstatic выполнен успешно")
+    except Exception as e:
+        return HttpResponse(f"❌ Ошибка: {e}")
+
+
 
 urlpatterns = [
+
+    path('static-setup/', collectstatic_view),
     path("setup/", setup_view),
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
